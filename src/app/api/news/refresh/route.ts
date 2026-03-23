@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchMultiMarketNews, categorizeArticle } from "@/lib/gnews";
+import { categorizeArticle } from "@/lib/gnews";
 import { createClient } from "@supabase/supabase-js";
 
 // Use service role for server-side writes (not anon key)
@@ -23,8 +23,14 @@ export async function GET(request: NextRequest) {
     const hasPublicKey = !!process.env.NEXT_PUBLIC_GNEWS_API_KEY;
     console.log(`[News Refresh] GNEWS_API_KEY present: ${hasKey}, NEXT_PUBLIC: ${hasPublicKey}`);
 
-    // 1. Fetch from GNews
-    const articles = await fetchMultiMarketNews();
+    // 1. Fetch from GNews — single query to conserve free tier
+    const { fetchGNews } = await import("@/lib/gnews");
+    const articles = await fetchGNews({
+      query: "automotive OR cars OR auto industry",
+      lang: "en",
+      country: "us",
+      max: 10,
+    });
 
     if (articles.length === 0) {
       return NextResponse.json({

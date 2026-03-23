@@ -63,11 +63,13 @@ export async function fetchGNews({
     });
 
     if (!res.ok) {
-      console.error(`[GNews] API error: ${res.status} ${res.statusText}`);
+      const errText = await res.text().catch(() => "");
+      console.error(`[GNews] API error: ${res.status} ${res.statusText} — ${errText}`);
       return [];
     }
 
     const data: GNewsResponse = await res.json();
+    console.log(`[GNews] Fetched ${data.articles?.length || 0} articles (total: ${data.totalArticles})`);
     return data.articles || [];
   } catch (err) {
     console.error("[GNews] Fetch failed:", err);
