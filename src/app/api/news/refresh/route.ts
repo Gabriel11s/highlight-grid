@@ -18,6 +18,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Debug: check env var availability
+    const hasKey = !!process.env.GNEWS_API_KEY;
+    const hasPublicKey = !!process.env.NEXT_PUBLIC_GNEWS_API_KEY;
+    console.log(`[News Refresh] GNEWS_API_KEY present: ${hasKey}, NEXT_PUBLIC: ${hasPublicKey}`);
+
     // 1. Fetch from GNews
     const articles = await fetchMultiMarketNews();
 
@@ -25,6 +30,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({
         message: "No articles fetched from GNews",
         count: 0,
+        debug: { hasKey: !!process.env.GNEWS_API_KEY, hasPublicKey: !!process.env.NEXT_PUBLIC_GNEWS_API_KEY },
       });
     }
 
