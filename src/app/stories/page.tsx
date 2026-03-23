@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import StoriesPageContent from "./StoriesPageContent";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import { getAllNews } from "@/lib/news-service";
+
+export const revalidate = 21600; // ISR: revalidate every 6 hours
 
 export const metadata: Metadata = {
-  title: "Notícias",
+  title: "Notícias — NEWS",
   description:
     "As últimas notícias e análises do mercado automotivo. Tendências, bastidores e insights para lojistas e empreendedores.",
   openGraph: {
@@ -13,6 +18,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function StoriesPage() {
-  return <StoriesPageContent />;
+export default async function StoriesPage() {
+  const articles = await getAllNews(12);
+
+  return (
+    <>
+      <SiteHeader />
+      <StoriesPageContent articles={articles} />
+      <SiteFooter />
+    </>
+  );
 }

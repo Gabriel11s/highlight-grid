@@ -2,30 +2,41 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, User } from "lucide-react";
-import { useNewsArticles } from "@/hooks/useNewsArticles";
 import { useUserSubmissions } from "@/hooks/useUserSubmissions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import type { NewsArticle } from "@/lib/news-service";
 
-const StoriesPageContent = () => {
-  const { data: articles, isLoading, error } = useNewsArticles(12);
+interface StoriesPageContentProps {
+  articles?: NewsArticle[];
+}
+
+const StoriesPageContent = ({ articles = [] }: StoriesPageContentProps) => {
   const { data: userNews } = useUserSubmissions("news");
   const { t, language } = useLanguage();
 
-  const dateLocale = language === "pt" ? "pt-BR" : language === "es" ? "es-ES" : language === "fr" ? "fr-FR" : language === "de" ? "de-DE" : language === "it" ? "it-IT" : language === "zh" ? "zh-CN" : language === "ja" ? "ja-JP" : language === "ko" ? "ko-KR" : language === "ar" ? "ar-SA" : "en-US";
+  const dateLocale =
+    language === "pt" ? "pt-BR" :
+    language === "es" ? "es-ES" :
+    language === "fr" ? "fr-FR" :
+    "en-US";
 
-  const openArticle = (url: string) => window.open(url, "_blank", "noopener,noreferrer");
+  const openArticle = (url: string) =>
+    window.open(url, "_blank", "noopener,noreferrer");
+
+  const isEmpty = articles.length === 0;
 
   return (
     <div className="min-h-screen bg-background">
-
       <section className="pt-32 pb-16 px-6 max-w-[1600px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] as const }}
         >
-          <span className="editorial-label block mb-2">{t("stories.label")}</span>
+          <span className="editorial-label block mb-2">
+            {t("stories.label")}
+          </span>
           <h1 className="text-4xl md:text-6xl font-display font-black text-foreground tracking-tighter mb-4">
             {t("stories.title")}
           </h1>
@@ -36,7 +47,7 @@ const StoriesPageContent = () => {
       </section>
 
       <section className="px-6 pb-20 max-w-[1600px] mx-auto">
-        {isLoading && (
+        {isEmpty && (
           <div className="space-y-8">
             <div className="editorial-card">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
@@ -64,18 +75,6 @@ const StoriesPageContent = () => {
           </div>
         )}
 
-        {error && (
-          <p className="text-muted-foreground font-body text-sm text-center py-12">
-            {t("stories.error")}
-          </p>
-        )}
-
-        {!isLoading && !error && articles && articles.length === 0 && (
-          <p className="text-muted-foreground font-body text-sm text-center py-12">
-            {t("stories.empty")}
-          </p>
-        )}
-
         {/* User-submitted news with priority */}
         {userNews && userNews.length > 0 && (
           <div className="mb-10">
@@ -91,24 +90,51 @@ const StoriesPageContent = () => {
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.5, ease: [0.2, 0.8, 0.2, 1] as const }}
-                  onClick={() => item.url && window.open(item.url, "_blank", "noopener,noreferrer")}
+                  transition={{
+                    delay: i * 0.08,
+                    duration: 0.5,
+                    ease: [0.2, 0.8, 0.2, 1] as const,
+                  }}
+                  onClick={() =>
+                    item.url &&
+                    window.open(item.url, "_blank", "noopener,noreferrer")
+                  }
                 >
                   {item.image_url && (
                     <div className="overflow-hidden rounded-[calc(0.75rem-4px)]">
-                      <img src={item.image_url} alt={item.title} className="editorial-image aspect-[3/2]" onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }} />
+                      <img
+                        src={item.image_url}
+                        alt={item.title}
+                        className="editorial-image aspect-[3/2]"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "/placeholder.svg";
+                        }}
+                      />
                     </div>
                   )}
                   <div className="p-5">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="editorial-badge text-[9px] py-0.5 px-2 bg-primary/10 border-primary/30 text-primary">{t("submit.community")}</span>
-                      {item.category && <span className="editorial-label">{item.category}</span>}
+                      <span className="editorial-badge text-[9px] py-0.5 px-2 bg-primary/10 border-primary/30 text-primary">
+                        {t("submit.community")}
+                      </span>
+                      {item.category && (
+                        <span className="editorial-label">{item.category}</span>
+                      )}
                     </div>
-                    <h3 className="text-base font-display font-bold text-foreground tracking-tight mb-2 group-hover:text-primary transition-colors duration-300 leading-snug line-clamp-2">{item.title}</h3>
-                    {item.description && <p className="text-sm text-muted-foreground font-body leading-relaxed mb-2 line-clamp-2">{item.description}</p>}
+                    <h3 className="text-base font-display font-bold text-foreground tracking-tight mb-2 group-hover:text-primary transition-colors duration-300 leading-snug line-clamp-2">
+                      {item.title}
+                    </h3>
+                    {item.description && (
+                      <p className="text-sm text-muted-foreground font-body leading-relaxed mb-2 line-clamp-2">
+                        {item.description}
+                      </p>
+                    )}
                     <div className="flex items-center gap-2">
                       <User className="w-3 h-3 text-muted-foreground" />
-                      <span className="font-body text-xs text-muted-foreground">{item.author_name}</span>
+                      <span className="font-body text-xs text-muted-foreground">
+                        {item.author_name}
+                      </span>
                     </div>
                   </div>
                   <div className="highlight-line" />
@@ -118,13 +144,18 @@ const StoriesPageContent = () => {
           </div>
         )}
 
-        {!isLoading && !error && articles && articles.length > 0 && (
+        {!isEmpty && (
           <>
+            {/* Featured article */}
             <motion.article
               className="editorial-card group cursor-pointer relative mb-8"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] as const }}
+              transition={{
+                delay: 0.1,
+                duration: 0.6,
+                ease: [0.2, 0.8, 0.2, 1] as const,
+              }}
               onClick={() => openArticle(articles[0].url)}
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
@@ -133,14 +164,20 @@ const StoriesPageContent = () => {
                     src={articles[0].image_url || "/placeholder.svg"}
                     alt={articles[0].title}
                     className="editorial-image aspect-[16/10] lg:aspect-auto lg:h-full"
-                    onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/placeholder.svg";
+                    }}
                   />
                 </div>
                 <div className="p-8 flex flex-col justify-center">
                   {articles[0].source_name && (
-                    <span className="editorial-badge mb-4 inline-flex w-fit">{articles[0].source_name}</span>
+                    <span className="editorial-badge mb-4 inline-flex w-fit">
+                      {articles[0].source_name}
+                    </span>
                   )}
-                  <span className="editorial-label block mb-2">{articles[0].category || t("news.category")}</span>
+                  <span className="editorial-label block mb-2">
+                    {articles[0].category || t("news.category")}
+                  </span>
                   <h2 className="text-2xl md:text-3xl font-display font-black text-foreground tracking-tight mb-3 group-hover:text-primary transition-colors duration-300">
                     {articles[0].title}
                   </h2>
@@ -149,7 +186,15 @@ const StoriesPageContent = () => {
                   </p>
                   <div className="flex items-center gap-3">
                     <span className="font-body text-xs text-muted-foreground tabular-nums">
-                      {articles[0].published_at ? new Date(articles[0].published_at).toLocaleDateString(dateLocale, { month: "short", day: "numeric", year: "numeric" }) : ""}
+                      {articles[0].published_at
+                        ? new Date(
+                            articles[0].published_at
+                          ).toLocaleDateString(dateLocale, {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        : ""}
                     </span>
                     <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-200" />
                   </div>
@@ -158,6 +203,7 @@ const StoriesPageContent = () => {
               <div className="highlight-line" />
             </motion.article>
 
+            {/* Grid of remaining articles */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {articles.slice(1).map((item, i) => (
                 <motion.article
@@ -166,7 +212,11 @@ const StoriesPageContent = () => {
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.5, ease: [0.2, 0.8, 0.2, 1] as const }}
+                  transition={{
+                    delay: i * 0.08,
+                    duration: 0.5,
+                    ease: [0.2, 0.8, 0.2, 1] as const,
+                  }}
                   onClick={() => openArticle(item.url)}
                 >
                   <div className="overflow-hidden rounded-[calc(0.75rem-4px)]">
@@ -174,13 +224,21 @@ const StoriesPageContent = () => {
                       src={item.image_url || "/placeholder.svg"}
                       alt={item.title}
                       className="editorial-image aspect-[3/2]"
-                      onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/placeholder.svg";
+                      }}
                     />
                   </div>
                   <div className="p-5">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="editorial-label">{item.category || t("news.category")}</span>
-                      {item.source_name && <span className="editorial-badge text-[9px] py-0.5 px-2">{item.source_name}</span>}
+                      <span className="editorial-label">
+                        {item.category || t("news.category")}
+                      </span>
+                      {item.source_name && (
+                        <span className="editorial-badge text-[9px] py-0.5 px-2">
+                          {item.source_name}
+                        </span>
+                      )}
                     </div>
                     <h3 className="text-base font-display font-bold text-foreground tracking-tight mb-2 group-hover:text-primary transition-colors duration-300 leading-snug line-clamp-2">
                       {item.title}
@@ -189,7 +247,16 @@ const StoriesPageContent = () => {
                       {item.description}
                     </p>
                     <span className="font-body text-xs text-muted-foreground tabular-nums">
-                      {item.published_at ? new Date(item.published_at).toLocaleDateString(dateLocale, { month: "short", day: "numeric", year: "numeric" }) : ""}
+                      {item.published_at
+                        ? new Date(item.published_at).toLocaleDateString(
+                            dateLocale,
+                            {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            }
+                          )
+                        : ""}
                     </span>
                   </div>
                   <div className="highlight-line" />
@@ -199,7 +266,6 @@ const StoriesPageContent = () => {
           </>
         )}
       </section>
-
     </div>
   );
 };

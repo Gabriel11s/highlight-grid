@@ -7,6 +7,9 @@ import EventsSection from "@/components/EventsSection";
 import SiteFooter from "@/components/SiteFooter";
 import UserContentSection from "@/components/UserContentSection";
 import EventReminderPopup from "@/components/EventReminderPopup";
+import { getAllNews, getBreakingNews } from "@/lib/news-service";
+
+export const revalidate = 21600; // ISR: revalidate every 6 hours
 
 export const metadata: Metadata = {
   title: "NEWS — Automotive Intelligence & Events",
@@ -28,14 +31,19 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [articles, breakingItems] = await Promise.all([
+    getAllNews(6),
+    getBreakingNews(),
+  ]);
+
   return (
     <>
       <SiteHeader />
       <main>
         <HeroSection />
-        <BreakingBar />
-        <NewsGrid />
+        <BreakingBar items={breakingItems} />
+        <NewsGrid articles={articles.slice(0, 3)} />
         <EventsSection />
         <UserContentSection />
       </main>
