@@ -1,26 +1,132 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 40 20% 97%;
+    --foreground: 240 10% 10%;
+    --card: 40 15% 95%;
+    --card-foreground: 240 10% 10%;
+    --popover: 40 15% 95%;
+    --popover-foreground: 240 10% 10%;
+    --primary: 220 15% 20%;
+    --primary-foreground: 40 20% 97%;
+    --secondary: 240 5% 93%;
+    --secondary-foreground: 240 10% 10%;
+    --muted: 240 5% 93%;
+    --muted-foreground: 240 5% 40%;
+    --accent: 240 5% 93%;
+    --accent-foreground: 240 10% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 220 15% 20%;
+    --radius: 0.75rem;
+    --surface: 40 15% 95%;
+
+    --sidebar-background: 40 15% 96%;
+    --sidebar-foreground: 240 5% 40%;
+    --sidebar-primary: 220 15% 20%;
+    --sidebar-primary-foreground: 40 20% 97%;
+    --sidebar-accent: 240 5% 93%;
+    --sidebar-accent-foreground: 240 10% 10%;
+    --sidebar-border: 240 6% 90%;
+    --sidebar-ring: 220 15% 20%;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 6% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 6% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 220 15% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100% / 0.08;
+    --input: 0 0% 100% / 0.08;
+    --ring: 220 15% 45%;
+    --radius: 0.75rem;
+    --surface: 240 6% 10%;
+
+    --sidebar-background: 240 6% 6%;
+    --sidebar-foreground: 240 5% 65%;
+    --sidebar-primary: 220 15% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 100% / 0.08;
+    --sidebar-ring: 220 15% 45%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-fraunces), Georgia, serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-fraunces), Georgia, serif;
+  }
+  .font-body {
+    font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .editorial-card {
+    @apply bg-card rounded-xl overflow-hidden transition-all duration-300;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 4px 6px -4px rgba(0,0,0,0.5);
+  }
+  .editorial-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 20px 40px -12px rgba(0,0,0,0.6);
+  }
+  .editorial-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-sm text-[10px] font-bold tracking-[0.15em] uppercase;
+    background: hsl(var(--primary) / 0.1);
+    border: 1px solid hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
+  }
+  .editorial-label {
+    @apply font-body uppercase tracking-[0.15em] text-[10px] font-bold text-muted-foreground;
+  }
+  .editorial-image {
+    @apply w-full h-full object-cover transition-transform duration-500;
+    outline: 1px solid rgba(255,255,255,0.1);
+    outline-offset: -1px;
+  }
+  .editorial-image:hover {
+    transform: scale(1.05);
+  }
+  .highlight-line {
+    @apply absolute bottom-0 left-0 w-full h-[2px] bg-primary scale-x-0 origin-left transition-transform duration-300;
+  }
+  .editorial-card:hover .highlight-line {
+    @apply scale-x-100;
+  }
 }
