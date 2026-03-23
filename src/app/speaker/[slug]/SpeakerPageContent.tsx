@@ -224,6 +224,11 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
         posts={1986}
         brandColor={BRAND_COLOR}
         gallery={instagramGallery}
+        embedPostUrls={[
+          "https://www.instagram.com/p/DHgIvJgPAiy/",
+          "https://www.instagram.com/reel/DHdjKjTvNGY/",
+          "https://www.instagram.com/reel/DHYRALjPC25/",
+        ]}
       />
 
       {/* 10. UPCOMING EVENT */}

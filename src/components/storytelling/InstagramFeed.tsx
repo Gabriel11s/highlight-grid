@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Instagram, ExternalLink, Heart, MessageCircle } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 interface InstagramPost {
   image: string;
@@ -16,6 +17,7 @@ interface InstagramFeedProps {
   posts: number;
   brandColor?: string;
   gallery: InstagramPost[];
+  embedPostUrls?: string[];
 }
 
 export default function InstagramFeed({
@@ -24,7 +26,24 @@ export default function InstagramFeed({
   posts,
   brandColor = "hsl(35 90% 55%)",
   gallery,
+  embedPostUrls,
 }: InstagramFeedProps) {
+  const embedRef = useRef<HTMLDivElement>(null);
+
+  // Load Instagram embed script
+  useEffect(() => {
+    if (!embedPostUrls?.length) return;
+    const script = document.createElement("script");
+    script.src = "https://www.instagram.com/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    script.onload = () => {
+      // @ts-expect-error — Instagram global
+      if (window.instgrm) window.instgrm.Embeds.process();
+    };
+    return () => { document.body.removeChild(script); };
+  }, [embedPostUrls]);
+
   return (
     <section className="py-32 px-6 bg-background overflow-hidden">
       <div className="max-w-6xl mx-auto">
@@ -37,7 +56,6 @@ export default function InstagramFeed({
         >
           <div className="flex items-center gap-5">
             <div className="relative">
-              {/* Instagram gradient ring */}
               <div className="w-20 h-20 rounded-full p-[3px] bg-gradient-to-br from-[#F58529] via-[#DD2A7B] to-[#8134AF]">
                 <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
                   <Instagram className="w-8 h-8 text-foreground" />
@@ -73,43 +91,94 @@ export default function InstagramFeed({
           </a>
         </motion.div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {gallery.map((post, i) => (
-            <motion.a
-              key={i}
-              href={post.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative aspect-square rounded-xl overflow-hidden bg-muted"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05, duration: 0.4 }}
-            >
-              <img
-                src={post.image}
-                alt=""
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6">
-                {post.likes && (
-                  <span className="flex items-center gap-1.5 text-white font-body text-sm font-bold">
-                    <Heart className="w-4 h-4 fill-white" />
-                    {post.likes}
-                  </span>
-                )}
-                {post.comments && (
-                  <span className="flex items-center gap-1.5 text-white font-body text-sm font-bold">
-                    <MessageCircle className="w-4 h-4 fill-white" />
-                    {post.comments}
-                  </span>
-                )}
-              </div>
-            </motion.a>
-          ))}
-        </div>
+        {/* Instagram Embeds (official) */}
+        {embedPostUrls && embedPostUrls.length > 0 && (
+          <div ref={embedRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+            {embedPostUrls.map((url, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="[&_iframe]:!rounded-xl [&_iframe]:!border-border"
+              >
+                <blockquote
+                  className="instagram-media"
+                  data-instgrm-captioned
+                  data-instgrm-permalink={url}
+                  style={{
+                    background: "transparent",
+                    border: 0,
+                    borderRadius: "12px",
+                    margin: 0,
+                    maxWidth: "100%",
+                    minWidth: "100%",
+                    padding: 0,
+                    width: "100%",
+                  }}
+                />
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* Fallback gallery grid */}
+        {(!embedPostUrls || embedPostUrls.length === 0) && gallery.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {gallery.map((post, i) => (
+              <motion.a
+                key={i}
+                href={post.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative aspect-square rounded-xl overflow-hidden bg-muted"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+              >
+                <img
+                  src={post.image}
+                  alt=""
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6">
+                  {post.likes && (
+                    <span className="flex items-center gap-1.5 text-white font-body text-sm font-bold">
+                      <Heart className="w-4 h-4 fill-white" />
+                      {post.likes}
+                    </span>
+                  )}
+                  {post.comments && (
+                    <span className="flex items-center gap-1.5 text-white font-body text-sm font-bold">
+                      <MessageCircle className="w-4 h-4 fill-white" />
+                      {post.comments}
+                    </span>
+                  )}
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        )}
+
+        {/* CTA to profile */}
+        <motion.div
+          className="text-center mt-10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <a
+            href={`https://instagram.com/${handle}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-body text-sm font-bold text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Ver mais no Instagram
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

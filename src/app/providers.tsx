@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { EmbedProvider } from "@/contexts/EmbedContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { Toaster } from "sonner";
 import { useState, Suspense } from "react";
 
@@ -15,10 +16,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <Suspense fallback={null}>
         <EmbedProvider>
           <LanguageProvider>
-            <TooltipProvider>
-              <Toaster />
-              {children}
-            </TooltipProvider>
+            <AuthProvider>
+              <TooltipProvider>
+                <Toaster />
+                {children}
+              </TooltipProvider>
+            </AuthProvider>
           </LanguageProvider>
         </EmbedProvider>
       </Suspense>
