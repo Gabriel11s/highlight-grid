@@ -4,8 +4,11 @@
  * API docs: https://gnews.io/docs/v4
  */
 
-const GNEWS_API_KEY = process.env.GNEWS_API_KEY || process.env.NEXT_PUBLIC_GNEWS_API_KEY || "";
 const GNEWS_BASE = "https://gnews.io/api/v4";
+
+function getApiKey(): string {
+  return process.env.GNEWS_API_KEY || process.env.NEXT_PUBLIC_GNEWS_API_KEY || "";
+}
 
 export interface GNewsArticle {
   title: string;
@@ -39,7 +42,8 @@ export async function fetchGNews({
   country = "us",
   max = 10,
 }: FetchNewsOptions = {}): Promise<GNewsArticle[]> {
-  if (!GNEWS_API_KEY) {
+  const apiKey = getApiKey();
+  if (!apiKey) {
     console.warn("[GNews] No API key configured. Set GNEWS_API_KEY env var.");
     return [];
   }
@@ -49,13 +53,13 @@ export async function fetchGNews({
     lang,
     country,
     max: String(max),
-    apikey: GNEWS_API_KEY,
+    apikey: apiKey,
     sortby: "publishedAt",
   });
 
   try {
     const res = await fetch(`${GNEWS_BASE}/search?${params}`, {
-      next: { revalidate: 3600 }, // Cache 1 hour in Next.js
+      cache: "no-store", // Always fresh — page-level ISR handles caching
     });
 
     if (!res.ok) {

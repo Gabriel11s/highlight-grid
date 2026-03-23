@@ -4,7 +4,8 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { getAllNews } from "@/lib/news-service";
 
-export const revalidate = 21600; // ISR: revalidate every 6 hours
+export const dynamic = "force-dynamic";
+export const revalidate = 21600;
 
 export const metadata: Metadata = {
   title: "Notícias — NEWS",

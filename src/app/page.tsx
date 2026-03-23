@@ -9,7 +9,8 @@ import UserContentSection from "@/components/UserContentSection";
 import EventReminderPopup from "@/components/EventReminderPopup";
 import { getAllNews, getBreakingNews } from "@/lib/news-service";
 
-export const revalidate = 21600; // ISR: revalidate every 6 hours
+export const dynamic = "force-dynamic"; // Always SSR — news must be fresh
+export const revalidate = 21600; // ISR: revalidate every 6 hours after first render
 
 export const metadata: Metadata = {
   title: "NEWS — Automotive Intelligence & Events",
