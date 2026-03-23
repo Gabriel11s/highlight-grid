@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
-import HeroSection from "@/components/HeroSection";
 import BreakingBar from "@/components/BreakingBar";
 import NewsGrid from "@/components/NewsGrid";
+import FeaturedStories from "@/components/FeaturedStories";
 import EventsSection from "@/components/EventsSection";
 import SiteFooter from "@/components/SiteFooter";
 import UserContentSection from "@/components/UserContentSection";
 import EventReminderPopup from "@/components/EventReminderPopup";
+import HeroCompact from "@/components/HeroCompact";
 import { getAllNews, getBreakingNews } from "@/lib/news-service";
 
-export const dynamic = "force-dynamic"; // Always SSR — news must be fresh
-export const revalidate = 21600; // ISR: revalidate every 6 hours after first render
+export const dynamic = "force-dynamic";
+export const revalidate = 21600;
 
 export const metadata: Metadata = {
   title: "NEWS — Automotive Intelligence & Events",
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [articles, breakingItems] = await Promise.all([
-    getAllNews(6),
+    getAllNews(9),
     getBreakingNews(),
   ]);
 
@@ -42,9 +43,10 @@ export default async function HomePage() {
     <>
       <SiteHeader />
       <main>
-        <HeroSection />
+        <HeroCompact articles={articles.slice(0, 3)} />
         <BreakingBar items={breakingItems} />
-        <NewsGrid articles={articles.slice(0, 3)} />
+        <NewsGrid articles={articles.slice(0, 6)} />
+        <FeaturedStories />
         <EventsSection />
         <UserContentSection />
       </main>

@@ -21,14 +21,34 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    if (!name.trim()) {
+      setError("Por favor, insira seu nome");
+      return;
+    }
     if (password.length < 6) {
       setError("A senha precisa ter pelo menos 6 caracteres");
       return;
     }
     setLoading(true);
-    const { error } = await signUpWithEmail(email, password, name);
-    if (error) setError(error);
-    else setSuccess(true);
+    try {
+      const { error } = await signUpWithEmail(email, password, name);
+      if (error) {
+        // Map common Supabase errors to Portuguese
+        if (error.includes("already registered")) {
+          setError("Este email já está cadastrado. Tente fazer login.");
+        } else if (error.includes("not authorized") || error.includes("Signups not allowed")) {
+          setError("Cadastro temporariamente indisponível. Entre em contato com o administrador.");
+        } else if (error.includes("rate limit")) {
+          setError("Muitas tentativas. Aguarde alguns minutos.");
+        } else {
+          setError(error);
+        }
+      } else {
+        setSuccess(true);
+      }
+    } catch (err) {
+      setError("Erro de conexão. Verifique sua internet e tente novamente.");
+    }
     setLoading(false);
   };
 
