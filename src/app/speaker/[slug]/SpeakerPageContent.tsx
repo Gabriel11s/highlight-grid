@@ -52,7 +52,7 @@ const timeline = [
     title: "Nasce a DSM Multimarcas",
     description:
       "Com R$ 150 mil e três carros no pátio, fundou a DSM Multimarcas Comércio de Veículos em Curitiba. A aposta: transparência total, câmera ligada e negociação ao vivo como contrato de confiança.",
-    image: "/daniel/team-dsm.png",
+    image: "/daniel/office-wide.png",
   },
   {
     year: "2020",
@@ -73,7 +73,7 @@ const timeline = [
     title: "Além da Favela",
     description:
       "Lançou o livro 'Além da Favela — Uma Escada Para o Amanhã', sintetizando a jornada do Capão Redondo ao comando de uma operação que vende mais de 150 veículos por mês. Palestras, imersões e o G4 Podcasts consolidaram sua voz no setor.",
-    image: "/daniel/podcast.png",
+    image: "/daniel/stage-mic.png",
   },
 ];
 
@@ -159,10 +159,10 @@ const instagramHighlights = [
 
 /* Instagram gallery — real photos that link to the profile */
 const instagramGallery = [
-  { image: "/daniel/stage-mic.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/team-dsm.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
   { image: "/daniel/acelera-stage.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
-  { image: "/daniel/lecture-cap-front.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
-  { image: "/daniel/office-wide.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/podcast.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
+  { image: "/daniel/lecture-cap-front.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
   { image: "/daniel/conference-phone.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
   { image: "/daniel/story-red-cap.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
   { image: "/daniel/lecture-white.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },

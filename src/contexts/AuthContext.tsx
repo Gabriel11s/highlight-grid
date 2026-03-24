@@ -10,7 +10,6 @@ interface AuthContextType {
   loading: boolean;
   signInWithEmail: (email: string, password: string) => Promise<{ error: string | null }>;
   signUpWithEmail: (email: string, password: string, name: string) => Promise<{ error: string | null }>;
-  signInWithMagicLink: (email: string) => Promise<{ error: string | null }>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -57,14 +56,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error: error?.message || null };
   }, []);
 
-  const signInWithMagicLink = useCallback(async (email: string) => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${window.location.origin}/callback` },
-    });
-    return { error: error?.message || null };
-  }, []);
-
   const signInWithGoogle = useCallback(async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -84,7 +75,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         signInWithEmail,
         signUpWithEmail,
-        signInWithMagicLink,
         signInWithGoogle,
         signOut,
       }}
