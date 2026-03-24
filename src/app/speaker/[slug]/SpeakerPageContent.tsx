@@ -308,7 +308,7 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
         socialLinks={[
           { platform: "instagram", url: "https://instagram.com/daniel.ribeiro87" },
           { platform: "tiktok", url: "https://tiktok.com/@daniel.ribeiro87" },
-          { platform: "youtube", url: "https://youtube.com/@danielribeiro" },
+          { platform: "youtube", url: "https://www.youtube.com/@daniel.ribeiro87" },
           { platform: "website", url: "https://metododsm.com.br" },
         ]}
       />

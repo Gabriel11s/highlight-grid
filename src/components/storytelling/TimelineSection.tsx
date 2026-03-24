@@ -74,7 +74,7 @@ export default function TimelineSection({ title = "The Journey", items, brandCol
                     <div className="flex-1 pb-2">
                       {item.image && (
                         <motion.div
-                          className="relative overflow-hidden rounded-xl mb-4 aspect-[4/3]"
+                          className="relative overflow-hidden rounded-xl mb-4 bg-zinc-900/30"
                           initial={{ opacity: 0, scale: 0.95 }}
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
@@ -83,14 +83,8 @@ export default function TimelineSection({ title = "The Journey", items, brandCol
                           <img
                             src={item.image}
                             alt={item.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-auto max-h-[300px] object-contain rounded-xl"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                          <span
-                            className="absolute bottom-3 left-3 font-display text-2xl font-black tracking-tighter text-white"
-                          >
-                            {item.year}
-                          </span>
                         </motion.div>
                       )}
                       {!item.image && (
@@ -151,7 +145,7 @@ export default function TimelineSection({ title = "The Journey", items, brandCol
                     <div className="flex-1">
                       {item.image ? (
                         <motion.div
-                          className="relative overflow-hidden rounded-2xl aspect-[4/3] shadow-2xl"
+                          className="relative overflow-hidden rounded-2xl shadow-2xl bg-zinc-900/30"
                           initial={{ opacity: 0, x: isLeft ? 40 : -40, scale: 0.9 }}
                           whileInView={{ opacity: 1, x: 0, scale: 1 }}
                           viewport={{ once: true, margin: "-50px" }}
@@ -160,10 +154,8 @@ export default function TimelineSection({ title = "The Journey", items, brandCol
                           <img
                             src={item.image}
                             alt={item.title}
-                            className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                            className="w-full h-auto max-h-[400px] object-contain transition-transform duration-700 hover:scale-105 rounded-2xl"
                           />
-                          {/* Subtle overlay with year */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
                         </motion.div>
                       ) : (
                         <div />
