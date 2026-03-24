@@ -9,8 +9,12 @@ import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import {
   ArrowLeft, Plus, Loader2, FileText, Trash2, Edit3, Eye, EyeOff,
-  X, Save, CheckCircle2, Clock, Tag,
+  X, Save, CheckCircle2, Clock, Tag, Palette,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+import type { PageDocument } from "@/lib/builder/schema";
+
+const InlineBuilder = dynamic(() => import("@/components/builder/InlineBuilder"), { ssr: false });
 
 const CATEGORIES = ["news", "market", "events", "opinion", "tutorial"];
 
@@ -22,6 +26,7 @@ export default function PostsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({ title: "", content: "", category: "news", image_url: "" });
   const [saving, setSaving] = useState(false);
+  const [builderPostId, setBuilderPostId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) router.replace("/login");
@@ -191,8 +196,11 @@ export default function PostsPage() {
                       className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
                       {p.status === "published" ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
-                    <button onClick={() => startEdit(p)} className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
+                    <button onClick={() => startEdit(p)} title="Editar detalhes" className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
                       <Edit3 className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => setBuilderPostId(p.id)} title="Personalizar layout" className="p-2 rounded-lg hover:bg-primary/10 transition-colors text-muted-foreground hover:text-primary">
+                      <Palette className="w-4 h-4" />
                     </button>
                     <button onClick={() => deletePost(p.id)} className="p-2 rounded-lg hover:bg-destructive/10 transition-colors text-muted-foreground hover:text-destructive">
                       <Trash2 className="w-4 h-4" />
@@ -204,6 +212,22 @@ export default function PostsPage() {
           </div>
         )}
       </main>
+
+      {/* Visual Builder overlay */}
+      {builderPostId && (
+        <InlineBuilder
+          contentType="post"
+          initialDoc={{
+            title: posts.find((p) => p.id === builderPostId)?.title || "Post",
+            slug: builderPostId,
+          }}
+          onSave={async (doc: PageDocument) => {
+            await updatePost(builderPostId, { builder_layout: JSON.stringify(doc) });
+            setBuilderPostId(null);
+          }}
+          onClose={() => setBuilderPostId(null)}
+        />
+      )}
     </div>
   );
 }

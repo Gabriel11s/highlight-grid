@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
-import BuilderClient from "./BuilderClient";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Visual Builder",
-  description:
-    "Crie seu perfil ou anúncio personalizado com blocos visuais. Arraste, edite e publique.",
+export const metadata = {
+  title: "Builder — NEWS",
   robots: { index: false, follow: false },
 };
 
+/** Builder is now integrated inside the dashboard — redirect legacy URL */
 export default function BuilderPage() {
-  return <BuilderClient />;
+  redirect("/dashboard");
 }

@@ -14,7 +14,9 @@ export interface Profile {
   youtube: string | null;
   linkedin: string | null;
   location: string | null;
+  slug: string | null;
   role: string;
+  builder_layout: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -31,6 +33,7 @@ export interface UserEvent {
   ticket_url: string | null;
   ticket_info: string | null;
   status: string;
+  builder_layout: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -45,6 +48,7 @@ export interface UserPost {
   tags: string[] | null;
   status: string;
   views: number;
+  builder_layout: string | null;
   created_at: string;
   updated_at: string;
 }

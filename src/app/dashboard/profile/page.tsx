@@ -8,8 +8,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import {
-  ArrowLeft, Save, Loader2, User, Globe, Instagram, Youtube, Linkedin, MapPin, CheckCircle2,
+  ArrowLeft, Save, Loader2, User, Globe, Instagram, Youtube, Linkedin, MapPin, CheckCircle2, Palette, ExternalLink,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+import type { PageDocument } from "@/lib/builder/schema";
+
+const InlineBuilder = dynamic(() => import("@/components/builder/InlineBuilder"), { ssr: false });
 
 function TikTokIcon({ className }: { className?: string }) {
   return (
@@ -36,6 +40,7 @@ export default function ProfilePage() {
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [showBuilder, setShowBuilder] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) router.replace("/login");
@@ -140,6 +145,44 @@ export default function ProfilePage() {
           </div>
         </motion.div>
 
+        {/* Personalizar página */}
+        <motion.div
+          className="bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-6 mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.07 }}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Palette className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-display text-base font-bold text-foreground tracking-tight">Personalizar minha página</h3>
+                <p className="font-body text-xs text-muted-foreground mt-0.5">
+                  Use o builder visual para criar sua página de speaker com layout único
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {profile?.slug && (
+                <Link
+                  href={`/speaker/${profile.slug}`}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-body text-xs font-medium text-muted-foreground hover:text-foreground border border-border hover:border-primary/30 transition-all"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Ver página
+                </Link>
+              )}
+              <button
+                onClick={() => setShowBuilder(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-body text-sm font-bold hover:opacity-90 transition-all"
+              >
+                <Palette className="w-4 h-4" /> Abrir Builder
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Info pessoal */}
         <motion.div
           className="bg-card border border-border rounded-2xl p-6 mb-6 space-y-5"
@@ -203,6 +246,23 @@ export default function ProfilePage() {
           </button>
         </motion.div>
       </main>
+
+      {/* Visual Builder overlay */}
+      {showBuilder && (
+        <InlineBuilder
+          contentType="profile"
+          initialDoc={{
+            title: form.full_name || "Meu Perfil",
+            slug: profile?.slug || user.id,
+            author: { name: form.full_name || "Anônimo", avatar: profile?.avatar_url || undefined, bio: form.bio || undefined },
+          }}
+          onSave={async (doc: PageDocument) => {
+            await updateProfile({ builder_layout: JSON.stringify(doc) });
+            setShowBuilder(false);
+          }}
+          onClose={() => setShowBuilder(false)}
+        />
+      )}
     </div>
   );
 }
