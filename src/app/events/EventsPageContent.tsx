@@ -11,7 +11,8 @@ import eventsHero from "@/assets/events-hero.jpg";
 import danielRibeiro from "@/assets/daniel-ribeiro.jpg";
 import danielPalestra from "@/assets/daniel-palestra.png";
 import news1 from "@/assets/news-1.jpg";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, type Language } from "@/contexts/LanguageContext";
+import { getI18nEvents, resolveI18nEvent } from "@/data/events-i18n";
 import type { StaticImageData } from "next/image";
 
 function imgSrc(img: string | StaticImageData | undefined): string {
@@ -26,7 +27,8 @@ interface EventSpeaker {
   profileUrl: string;
 }
 
-const events = [
+/* Events data is now in src/data/events-i18n.ts — fully internationalized */
+const _legacyEvents = [
   {
     date: "APR 20",
     year: "2026",
@@ -292,8 +294,10 @@ const segmentColors: Record<string, string> = {
 };
 
 const EventsPageContent = () => {
+  const { t, language } = useLanguage();
+  const i18nEvents = getI18nEvents(danielRibeiro, danielPalestra, news1);
+  const events = i18nEvents.map(e => resolveI18nEvent(e, language as Language));
   const [selectedEvent, setSelectedEvent] = useState<typeof events[0] | null>(null);
-  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const hasProcessedParam = useRef(false);
 
