@@ -7,36 +7,35 @@ import EventPromoSection from "@/components/storytelling/EventPromoSection";
 import StorytellingCTA from "@/components/storytelling/StorytellingCTA";
 import ParallaxQuote from "@/components/storytelling/ParallaxQuote";
 import BrandShowcase from "@/components/storytelling/BrandShowcase";
-import MediaMentions from "@/components/storytelling/MediaMentions";
+import MediaMomentosSection from "@/components/storytelling/MediaMomentosSection";
 import InstagramFeed from "@/components/storytelling/InstagramFeed";
 import SplitTextReveal from "@/components/storytelling/SplitTextReveal";
 import HighlightReel from "@/components/storytelling/HighlightReel";
-import MomentosCarousel from "@/components/storytelling/MomentosCarousel";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { useInstagramProfile } from "@/hooks/useInstagramProfile";
 import danielRibeiro from "@/assets/daniel-ribeiro.jpg";
 import danielPalestra from "@/assets/daniel-palestra.png";
 
-/* ─── MOMENTOS CAROUSEL — Real photos with captions ─── */
-const momentos = [
-  { src: "/daniel/stage-mic.png", caption: "No palco do Método Acelera — compartilhando estratégias com centenas de lojistas", year: "2026" },
-  { src: "/daniel/team-dsm.png", caption: "Equipe DSM Multimarcas reunida no showroom de Curitiba", year: "2024" },
-  { src: "/daniel/neymar.png", caption: "Encontro com Neymar — referência dentro e fora do campo", year: "2024" },
-  { src: "/daniel/acelera-stage.png", caption: "Evento Acelera — palco, convidados e energia da comunidade", year: "2026" },
-  { src: "/daniel/podcast.png", caption: "Gravando podcast — bastidores e reflexões sobre o mercado automotivo", year: "2026" },
-  { src: "/daniel/office-close.png", caption: "No escritório da DSM — assinando contratos e fechando negócios", year: "2024" },
-  { src: "/daniel/lecture-white.png", caption: "Palestra para lojistas — método na prática, resultado real", year: "2024" },
-  { src: "/daniel/acelera-crowd.png", caption: "Conectando com a plateia no Acelera — energia que transforma", year: "2026" },
-  { src: "/daniel/conference-phone.png", caption: "Em conferência — monitorando resultados em tempo real", year: "2025" },
-  { src: "/daniel/lecture-cap-front.png", caption: "Treinamento intensivo — cada detalhe importa na negociação", year: "2024" },
-  { src: "/daniel/story-red-cap.png", caption: "Ou você perde o medo, ou a oportunidade", year: "2025" },
-  { src: "/daniel/office-wide.png", caption: "Visão estratégica — planejando o próximo passo da DSM", year: "2024" },
-  { src: "/daniel/hero-profile.png", caption: "Daniel Ribeiro — do Capão Redondo ao topo do mercado automotivo", year: "2026" },
-  { src: "/daniel/lecture-cap-side.png", caption: "Cada palestra é uma oportunidade de mudar vidas", year: "2024" },
+/* ─── ALL DANIEL PHOTOS — used as mosaic background in Na Mídia ─── */
+const allPhotos = [
+  "/daniel/stage-mic.png",
+  "/daniel/team-dsm.png",
+  "/daniel/neymar.png",
+  "/daniel/acelera-stage.png",
+  "/daniel/podcast.png",
+  "/daniel/office-close.png",
+  "/daniel/lecture-white.png",
+  "/daniel/acelera-crowd.png",
+  "/daniel/conference-phone.png",
+  "/daniel/lecture-cap-front.png",
+  "/daniel/story-red-cap.png",
+  "/daniel/office-wide.png",
+  "/daniel/hero-profile.png",
+  "/daniel/lecture-cap-side.png",
 ];
 
-const BRAND_COLOR = "hsl(35 90% 55%)"; // Gold/amber — matches his visual identity
+const BRAND_COLOR = "hsl(0 80% 50%)"; // Red — matches Daniel's current branding on social/website
 
 /* ─── REAL DATA FROM PUBLIC RESEARCH ─── */
 
@@ -265,17 +264,11 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
         brandColor={BRAND_COLOR}
       />
 
-      {/* 8. MEDIA MENTIONS */}
-      <MediaMentions
+      {/* 8. NA MÍDIA + MOMENTOS combined — photos as background mosaic */}
+      <MediaMomentosSection
         title="Na Mídia"
         mentions={mediaMentions}
-        brandColor={BRAND_COLOR}
-      />
-
-      {/* 9. MOMENTOS CAROUSEL — Horizontal scroll with real photos */}
-      <MomentosCarousel
-        title="Momentos"
-        items={momentos}
+        photos={allPhotos}
         brandColor={BRAND_COLOR}
       />
 
