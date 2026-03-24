@@ -18,6 +18,8 @@ interface InstagramFeedProps {
   brandColor?: string;
   gallery: InstagramPost[];
   embedPostUrls?: string[];
+  profileImage?: string;
+  bio?: string;
 }
 
 export default function InstagramFeed({
@@ -27,6 +29,8 @@ export default function InstagramFeed({
   brandColor = "hsl(35 90% 55%)",
   gallery,
   embedPostUrls,
+  profileImage,
+  bio,
 }: InstagramFeedProps) {
   const embedRef = useRef<HTMLDivElement>(null);
 
@@ -57,16 +61,33 @@ export default function InstagramFeed({
           <div className="flex items-center gap-5">
             <div className="relative">
               <div className="w-20 h-20 rounded-full p-[3px] bg-gradient-to-br from-[#F58529] via-[#DD2A7B] to-[#8134AF]">
-                <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-                  <Instagram className="w-8 h-8 text-foreground" />
-                </div>
+                {profileImage ? (
+                  <img
+                    src={profileImage}
+                    alt={handle}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
+                    <Instagram className="w-8 h-8 text-foreground" />
+                  </div>
+                )}
+              </div>
+              {/* Verified badge */}
+              <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-[#3897f0] flex items-center justify-center ring-2 ring-background">
+                <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
               </div>
             </div>
             <div>
               <h3 className="font-display text-2xl font-black text-foreground tracking-tight">
                 @{handle}
               </h3>
-              <div className="flex items-center gap-4 mt-1">
+              {bio && (
+                <p className="font-body text-xs text-muted-foreground mt-0.5 max-w-xs">{bio}</p>
+              )}
+              <div className="flex items-center gap-4 mt-1.5">
                 <span className="font-body text-sm text-muted-foreground">
                   <strong className="text-foreground">{followers}</strong> seguidores
                 </span>

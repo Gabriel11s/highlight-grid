@@ -26,30 +26,35 @@ const timeline = [
     title: "Saiu do Capão Redondo",
     description:
       "Nascido e criado na Zona Sul de São Paulo, deixou o bairro aos 20 anos rumo a Curitiba. Sem estudo formal, carregava determinação e a experiência de uma infância que forjou resiliência.",
+    image: "https://images.unsplash.com/photo-1517732306149-e8f829eb588a?w=600&h=450&fit=crop",
   },
   {
     year: "2018",
     title: "Nasce a DSM Multimarcas",
     description:
       "Com R$ 150 mil e três carros no pátio, fundou a DSM Multimarcas Comércio de Veículos em Curitiba. A aposta: transparência total, câmera ligada e negociação ao vivo como contrato de confiança.",
+    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=450&fit=crop",
   },
   {
     year: "2020",
     title: "D87 Garage entra em cena",
     description:
       "Inaugurou a D87 Garage, expandindo o ecossistema automotivo. O modelo de consignação e conteúdo digital começou a atrair atenção nacional — e celebridades começaram a aparecer no pátio.",
+    image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&h=450&fit=crop",
   },
   {
     year: "2024",
     title: "Método DSM Acelera",
     description:
       "Formalizou o know-how em empresa de treinamento. O Acelerador de Vendas Método Daniel Ribeiro nasceu para ensinar lojistas a dominar vendas com método, não talento. Mais de 3 mil lojistas impactados.",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=450&fit=crop",
   },
   {
     year: "2026",
     title: "Além da Favela",
     description:
       "Lançou o livro 'Além da Favela — Uma Escada Para o Amanhã', sintetizando a jornada do Capão Redondo ao comando de uma operação que vende mais de 150 veículos por mês. Palestras, imersões e o G4 Podcasts consolidaram sua voz no setor.",
+    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&h=450&fit=crop",
   },
 ];
 
@@ -123,15 +128,17 @@ const mediaMentions = [
   },
 ];
 
-const instagramGallery = [
-  { image: "https://picsum.photos/seed/dr1/400/400", likes: "7.8K", comments: "87", href: "https://instagram.com/daniel.ribeiro87" },
-  { image: "https://picsum.photos/seed/dr2/400/400", likes: "2.9K", comments: "38", href: "https://instagram.com/daniel.ribeiro87" },
-  { image: "https://picsum.photos/seed/dr3/400/400", likes: "2.5K", comments: "49", href: "https://instagram.com/daniel.ribeiro87" },
-  { image: "https://picsum.photos/seed/dr4/400/400", likes: "2.3K", comments: "52", href: "https://instagram.com/daniel.ribeiro87" },
-  { image: "https://picsum.photos/seed/dr5/400/400", likes: "1.7K", comments: "26", href: "https://instagram.com/daniel.ribeiro87" },
-  { image: "https://picsum.photos/seed/dr6/400/400", likes: "1.4K", comments: "20", href: "https://instagram.com/daniel.ribeiro87" },
-  { image: "https://picsum.photos/seed/dr7/400/400", likes: "1.0K", comments: "15", href: "https://instagram.com/daniel.ribeiro87" },
-  { image: "https://picsum.photos/seed/dr8/400/400", likes: "865", comments: "17", href: "https://instagram.com/daniel.ribeiro87" },
+/* Instagram gallery removed — using embeds only for real content */
+const instagramGallery: { image: string; likes: string; comments: string; href: string }[] = [];
+
+/* Instagram embed post URLs — real posts from @daniel.ribeiro87 */
+const instagramEmbedUrls = [
+  "https://www.instagram.com/p/DHgIvJgPAiy/",
+  "https://www.instagram.com/reel/DHdjKjTvNGY/",
+  "https://www.instagram.com/reel/DHYRALjPC25/",
+  "https://www.instagram.com/p/DHQEeZdv5p-/",
+  "https://www.instagram.com/reel/DHLxj_9PsSW/",
+  "https://www.instagram.com/reel/DHI05VlPKU1/",
 ];
 
 const highlights = [
@@ -217,18 +224,15 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
         brandColor={BRAND_COLOR}
       />
 
-      {/* 9. INSTAGRAM FEED */}
+      {/* 9. INSTAGRAM FEED — real posts via official embed */}
       <InstagramFeed
         handle="daniel.ribeiro87"
         followers="758K"
         posts={1986}
         brandColor={BRAND_COLOR}
+        bio="CEO DSM Multimarcas | D87 Garage | Venda é método. Casado."
         gallery={instagramGallery}
-        embedPostUrls={[
-          "https://www.instagram.com/p/DHgIvJgPAiy/",
-          "https://www.instagram.com/reel/DHdjKjTvNGY/",
-          "https://www.instagram.com/reel/DHYRALjPC25/",
-        ]}
+        embedPostUrls={instagramEmbedUrls}
       />
 
       {/* 10. UPCOMING EVENT */}
