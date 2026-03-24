@@ -11,26 +11,29 @@ import MediaMentions from "@/components/storytelling/MediaMentions";
 import InstagramFeed from "@/components/storytelling/InstagramFeed";
 import SplitTextReveal from "@/components/storytelling/SplitTextReveal";
 import HighlightReel from "@/components/storytelling/HighlightReel";
-import PhotoGallery from "@/components/storytelling/PhotoGallery";
+import MomentosCarousel from "@/components/storytelling/MomentosCarousel";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import { useInstagramProfile } from "@/hooks/useInstagramProfile";
 import danielRibeiro from "@/assets/daniel-ribeiro.jpg";
 import danielPalestra from "@/assets/daniel-palestra.png";
 
-/* ─── PHOTO GALLERY — Real photos ─── */
-const galleryPhotos = [
-  { src: "/daniel/stage-mic.png", alt: "Daniel no palco — Método Acelera", span: "tall" as const },
-  { src: "/daniel/team-dsm.png", alt: "Equipe DSM Multimarcas no showroom", span: "wide" as const, fit: "cover" as const },
-  { src: "/daniel/office-close.png", alt: "Daniel assinando no escritório", span: "normal" as const },
-  { src: "/daniel/acelera-crowd.png", alt: "Daniel com a plateia do Acelera", span: "normal" as const },
-  { src: "/daniel/podcast.png", alt: "Daniel gravando podcast", span: "normal" as const },
-  { src: "/daniel/neymar.png", alt: "Daniel com Neymar", span: "tall" as const },
-  { src: "/daniel/lecture-white.png", alt: "Daniel palestrando para lojistas", span: "normal" as const },
-  { src: "/daniel/acelera-stage.png", alt: "Daniel no palco do evento Acelera", span: "wide" as const, fit: "cover" as const },
-  { src: "/daniel/conference-phone.png", alt: "Daniel em conferência", span: "normal" as const },
-  { src: "/daniel/lecture-cap-front.png", alt: "Daniel palestrando — close", span: "normal" as const },
-  { src: "/daniel/story-red-cap.png", alt: "Daniel — Ou você perde o medo, ou a oportunidade", span: "tall" as const },
-  { src: "/daniel/office-wide.png", alt: "Daniel no escritório da DSM", span: "normal" as const },
+/* ─── MOMENTOS CAROUSEL — Real photos with captions ─── */
+const momentos = [
+  { src: "/daniel/stage-mic.png", caption: "No palco do Método Acelera — compartilhando estratégias com centenas de lojistas", year: "2026" },
+  { src: "/daniel/team-dsm.png", caption: "Equipe DSM Multimarcas reunida no showroom de Curitiba", year: "2024" },
+  { src: "/daniel/neymar.png", caption: "Encontro com Neymar — referência dentro e fora do campo", year: "2024" },
+  { src: "/daniel/acelera-stage.png", caption: "Evento Acelera — palco, convidados e energia da comunidade", year: "2026" },
+  { src: "/daniel/podcast.png", caption: "Gravando podcast — bastidores e reflexões sobre o mercado automotivo", year: "2026" },
+  { src: "/daniel/office-close.png", caption: "No escritório da DSM — assinando contratos e fechando negócios", year: "2024" },
+  { src: "/daniel/lecture-white.png", caption: "Palestra para lojistas — método na prática, resultado real", year: "2024" },
+  { src: "/daniel/acelera-crowd.png", caption: "Conectando com a plateia no Acelera — energia que transforma", year: "2026" },
+  { src: "/daniel/conference-phone.png", caption: "Em conferência — monitorando resultados em tempo real", year: "2025" },
+  { src: "/daniel/lecture-cap-front.png", caption: "Treinamento intensivo — cada detalhe importa na negociação", year: "2024" },
+  { src: "/daniel/story-red-cap.png", caption: "Ou você perde o medo, ou a oportunidade", year: "2025" },
+  { src: "/daniel/office-wide.png", caption: "Visão estratégica — planejando o próximo passo da DSM", year: "2024" },
+  { src: "/daniel/hero-profile.png", caption: "Daniel Ribeiro — do Capão Redondo ao topo do mercado automotivo", year: "2026" },
+  { src: "/daniel/lecture-cap-side.png", caption: "Cada palestra é uma oportunidade de mudar vidas", year: "2024" },
 ];
 
 const BRAND_COLOR = "hsl(35 90% 55%)"; // Gold/amber — matches his visual identity
@@ -195,6 +198,24 @@ const upcomingEvents = [
 
 const SpeakerPageContent = ({ slug }: { slug: string }) => {
   const heroImg = typeof danielRibeiro === "string" ? danielRibeiro : danielRibeiro.src;
+  const { profile: liveProfile, isLive } = useInstagramProfile("daniel.ribeiro87");
+
+  // Use live data if available, otherwise static
+  const igFollowers = isLive && liveProfile ? `${Math.round(liveProfile.followersCount / 1000)}K` : "758K";
+  const igPosts = isLive && liveProfile ? liveProfile.postsCount : 1986;
+  const igBio = isLive && liveProfile ? liveProfile.biography : "CEO DSM Multimarcas | D87 Garage | Venda é método. Casado.";
+  const igProfilePic = isLive && liveProfile?.profilePicUrl ? liveProfile.profilePicUrl : "/daniel/hero-profile.png";
+
+  // Build Instagram gallery from live posts or fallback to static
+  const igGallery = isLive && liveProfile?.posts?.length
+    ? liveProfile.posts.slice(0, 9).map((p) => ({
+        image: p.imageUrl,
+        href: p.href,
+        isVideo: p.isVideo,
+        likes: p.likesCount > 0 ? String(p.likesCount) : undefined,
+        comments: p.commentsCount > 0 ? String(p.commentsCount) : undefined,
+      }))
+    : instagramGallery;
 
   return (
     <div className="min-h-screen bg-background">
@@ -251,24 +272,23 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
         brandColor={BRAND_COLOR}
       />
 
-      {/* 9. PHOTO GALLERY — Real photos */}
-      <PhotoGallery
+      {/* 9. MOMENTOS CAROUSEL — Horizontal scroll with real photos */}
+      <MomentosCarousel
         title="Momentos"
-        subtitle="Bastidores, palcos, negociações e conexões que marcaram a jornada."
-        photos={galleryPhotos}
+        items={momentos}
         brandColor={BRAND_COLOR}
       />
 
-      {/* 10. INSTAGRAM FEED — real posts via official embed */}
+      {/* 10. INSTAGRAM FEED — live data with fallback */}
       <InstagramFeed
         handle="daniel.ribeiro87"
-        followers="758K"
-        posts={1986}
+        followers={igFollowers}
+        posts={igPosts}
         brandColor={BRAND_COLOR}
-        bio="CEO DSM Multimarcas | D87 Garage | Venda é método. Casado."
-        profileImage="/daniel/hero-profile.png"
+        bio={igBio}
+        profileImage={igProfilePic}
         highlights={instagramHighlights}
-        gallery={instagramGallery}
+        gallery={igGallery}
       />
 
       {/* 10. UPCOMING EVENT */}
