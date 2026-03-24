@@ -157,17 +157,17 @@ const instagramHighlights = [
   { label: "Networking", image: "/daniel/neymar.png", href: "https://instagram.com/daniel.ribeiro87" },
 ];
 
-/* Instagram gallery — real photos that link to the profile */
+/* Instagram gallery — 9 unique photos, no repeats with highlights */
 const instagramGallery = [
-  { image: "/daniel/team-dsm.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/stage-mic.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
   { image: "/daniel/acelera-stage.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
-  { image: "/daniel/podcast.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
-  { image: "/daniel/lecture-cap-front.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
-  { image: "/daniel/conference-phone.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
   { image: "/daniel/story-red-cap.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
+  { image: "/daniel/hero-profile.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/conference-phone.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/lecture-cap-side.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
   { image: "/daniel/lecture-white.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
-  { image: "/daniel/acelera-crowd.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
-  { image: "/daniel/neymar.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/team-dsm.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/office-wide.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
 ];
 
 const highlights = [
