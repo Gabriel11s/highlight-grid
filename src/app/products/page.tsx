@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import ProductsPageContent from "./ProductsPageContent";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Produtos",
@@ -14,5 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
-  return <ProductsPageContent />;
+  return (
+    <>
+      <SiteHeader />
+      <ProductsPageContent />
+      <SiteFooter />
+    </>
+  );
 }

@@ -223,7 +223,7 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
       {/* 1. HERO — Fullscreen parallax */}
       <StorytellingHero
         name="Daniel Ribeiro"
-        tagline="Do Capão Redondo ao Topo do Mercado Automotivo"
+        tagline="Do Capão Redondo ao Topo do Mercado Automotivo | Empreendedor & Estrategista Automotivo"
         image={heroImg}
         brandColor={BRAND_COLOR}
       />

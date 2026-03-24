@@ -38,9 +38,23 @@ const EventDetailDrawer = ({ event, onClose }: { event: EventDetail | null; onCl
           <motion.div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
           <motion.div className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-xl bg-card shadow-2xl overflow-y-auto" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 30, stiffness: 300 }}>
             {event.image && (
-              <div className="relative h-56 overflow-hidden">
-                <img src={imgSrc(event.image)} alt={event.title} className="w-full h-full object-cover" />
+              <div
+                className={`relative h-56 overflow-hidden ${event.speaker?.profileUrl ? "cursor-pointer" : ""}`}
+                onClick={() => {
+                  if (event.speaker?.profileUrl) {
+                    onClose();
+                    setTimeout(() => router.push(event.speaker!.profileUrl), 300);
+                  }
+                }}
+              >
+                <img src={imgSrc(event.image)} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                {event.speaker?.profileUrl && (
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm text-white/80 font-body text-xs font-medium">
+                    <ExternalLink className="w-3 h-3" />
+                    Ver perfil completo
+                  </div>
+                )}
               </div>
             )}
             <button onClick={onClose} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-background transition-colors shadow-lg">

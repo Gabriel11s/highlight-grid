@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Calendar } from "lucide-react";
 import EventDetailDrawer from "@/components/EventDetailDrawer";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 import eventsHero from "@/assets/events-hero.jpg";
 import danielRibeiro from "@/assets/daniel-ribeiro.jpg";
 import danielPalestra from "@/assets/daniel-palestra.png";
@@ -55,7 +57,7 @@ const events = [
     ticketInfo: "Entrada gratuita mediante inscrição antecipada. Vagas limitadas a 100 participantes. VIP com acesso ao networking dinner: $75.",
     speaker: {
       name: "Daniel Ribeiro",
-      role: "Entrepreneur & Automotive Strategist",
+      role: "Empreendedor & Estrategista Automotivo",
       image: danielRibeiro,
       profileUrl: "/speaker/daniel-ribeiro",
     } as EventSpeaker,
@@ -315,6 +317,7 @@ const EventsPageContent = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SiteHeader />
 
       {/* Hero with newspaper image */}
       <section className="relative pt-16">
@@ -426,6 +429,8 @@ const EventsPageContent = () => {
 
       {/* Event Detail Drawer */}
       <EventDetailDrawer event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+
+      <SiteFooter />
     </div>
   );
 };
