@@ -8,6 +8,7 @@ interface PhotoItem {
   src: string;
   alt: string;
   span?: "tall" | "wide" | "normal";
+  fit?: "cover" | "contain"; // default: contain (show full photo)
 }
 
 interface PhotoGalleryProps {
@@ -67,17 +68,12 @@ function TiltCard({
       ? "col-span-2"
       : "";
 
-  const aspectClass =
-    photo.span === "tall"
-      ? "aspect-[3/5]"
-      : photo.span === "wide"
-      ? "aspect-[16/9]"
-      : "aspect-square";
+  const fitMode = photo.fit || "contain";
 
   return (
     <motion.div
       ref={ref}
-      className={`relative overflow-hidden rounded-2xl cursor-pointer group ${spanClass}`}
+      className={`relative overflow-hidden rounded-2xl cursor-pointer group bg-zinc-900/50 ${spanClass}`}
       style={{
         rotateX,
         rotateY,
@@ -96,12 +92,13 @@ function TiltCard({
       onMouseLeave={handleMouseLeave}
       onClick={onSelect}
     >
-      <div className={aspectClass}>
+      <div className="w-full h-full min-h-[200px] md:min-h-[260px] flex items-center justify-center p-1">
         <motion.img
           src={photo.src}
           alt={photo.alt}
-          className="w-full h-full object-cover"
-          whileHover={{ scale: 1.12 }}
+          className={`w-full h-full rounded-xl ${fitMode === "contain" ? "object-contain" : "object-cover"}`}
+          style={{ maxHeight: photo.span === "tall" ? "500px" : photo.span === "wide" ? "320px" : "340px" }}
+          whileHover={{ scale: 1.06 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         />
       </div>

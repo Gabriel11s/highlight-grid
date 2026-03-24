@@ -20,13 +20,13 @@ import danielPalestra from "@/assets/daniel-palestra.png";
 /* ─── PHOTO GALLERY — Real photos ─── */
 const galleryPhotos = [
   { src: "/daniel/stage-mic.png", alt: "Daniel no palco — Método Acelera", span: "tall" as const },
-  { src: "/daniel/team-dsm.png", alt: "Equipe DSM Multimarcas no showroom", span: "wide" as const },
+  { src: "/daniel/team-dsm.png", alt: "Equipe DSM Multimarcas no showroom", span: "wide" as const, fit: "cover" as const },
   { src: "/daniel/office-close.png", alt: "Daniel assinando no escritório", span: "normal" as const },
   { src: "/daniel/acelera-crowd.png", alt: "Daniel com a plateia do Acelera", span: "normal" as const },
   { src: "/daniel/podcast.png", alt: "Daniel gravando podcast", span: "normal" as const },
   { src: "/daniel/neymar.png", alt: "Daniel com Neymar", span: "tall" as const },
   { src: "/daniel/lecture-white.png", alt: "Daniel palestrando para lojistas", span: "normal" as const },
-  { src: "/daniel/acelera-stage.png", alt: "Daniel no palco do evento Acelera", span: "wide" as const },
+  { src: "/daniel/acelera-stage.png", alt: "Daniel no palco do evento Acelera", span: "wide" as const, fit: "cover" as const },
   { src: "/daniel/conference-phone.png", alt: "Daniel em conferência", span: "normal" as const },
   { src: "/daniel/lecture-cap-front.png", alt: "Daniel palestrando — close", span: "normal" as const },
   { src: "/daniel/story-red-cap.png", alt: "Daniel — Ou você perde o medo, ou a oportunidade", span: "tall" as const },
@@ -145,17 +145,27 @@ const mediaMentions = [
   },
 ];
 
-/* Instagram gallery removed — using embeds only for real content */
-const instagramGallery: { image: string; likes: string; comments: string; href: string }[] = [];
+/* Instagram highlights — real highlights from @daniel.ribeiro87 */
+const instagramHighlights = [
+  { label: "Acelera", image: "/daniel/acelera-crowd.png", href: "https://www.instagram.com/stories/highlights/18039470560877181/" },
+  { label: "DSM", image: "/daniel/team-dsm.png", href: "https://instagram.com/daniel.ribeiro87" },
+  { label: "Palestras", image: "/daniel/lecture-white.png", href: "https://instagram.com/daniel.ribeiro87" },
+  { label: "Bastidores", image: "/daniel/office-close.png", href: "https://instagram.com/daniel.ribeiro87" },
+  { label: "Podcast", image: "/daniel/podcast.png", href: "https://instagram.com/daniel.ribeiro87" },
+  { label: "Networking", image: "/daniel/neymar.png", href: "https://instagram.com/daniel.ribeiro87" },
+];
 
-/* Instagram embed post URLs — real posts from @daniel.ribeiro87 */
-const instagramEmbedUrls = [
-  "https://www.instagram.com/p/DHgIvJgPAiy/",
-  "https://www.instagram.com/reel/DHdjKjTvNGY/",
-  "https://www.instagram.com/reel/DHYRALjPC25/",
-  "https://www.instagram.com/p/DHQEeZdv5p-/",
-  "https://www.instagram.com/reel/DHLxj_9PsSW/",
-  "https://www.instagram.com/reel/DHI05VlPKU1/",
+/* Instagram gallery — real photos that link to the profile */
+const instagramGallery = [
+  { image: "/daniel/stage-mic.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/acelera-stage.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/lecture-cap-front.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
+  { image: "/daniel/office-wide.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/conference-phone.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/story-red-cap.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: true },
+  { image: "/daniel/lecture-white.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/acelera-crowd.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
+  { image: "/daniel/neymar.png", href: "https://instagram.com/daniel.ribeiro87", isVideo: false },
 ];
 
 const highlights = [
@@ -256,8 +266,9 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
         posts={1986}
         brandColor={BRAND_COLOR}
         bio="CEO DSM Multimarcas | D87 Garage | Venda é método. Casado."
+        profileImage="/daniel/hero-profile.png"
+        highlights={instagramHighlights}
         gallery={instagramGallery}
-        embedPostUrls={instagramEmbedUrls}
       />
 
       {/* 10. UPCOMING EVENT */}
