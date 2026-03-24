@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
 export interface NewsArticle {
   id: string;
@@ -11,21 +10,33 @@ export interface NewsArticle {
   published_at: string | null;
   category: string | null;
   region: string | null;
-  created_at: string;
 }
 
+/**
+ * Fetches news from /api/news which calls GNews API directly.
+ * Falls back gracefully if API is unavailable.
+ */
 export function useNewsArticles(limit = 12) {
   return useQuery({
     queryKey: ["news_articles", limit],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("news_articles")
-        .select("*")
-        .order("published_at", { ascending: false })
-        .limit(limit);
+    queryFn: async (): Promise<NewsArticle[]> => {
+      const res = await fetch(`/api/news`);
+      if (!res.ok) throw new Error("Failed to fetch news");
+      const data = await res.json();
 
-      if (error) throw error;
-      return data as NewsArticle[];
+      return (data.articles || []).slice(0, limit).map((a: any, i: number) => ({
+        id: `gnews-${i}-${Date.now()}`,
+        title: a.title,
+        description: a.description,
+        url: a.url,
+        image_url: a.image,
+        source_name: a.source,
+        published_at: a.publishedAt,
+        category: a.category,
+        region: null,
+      }));
     },
+    staleTime: 5 * 60 * 1000, // 5 min cache
+    retry: 2,
   });
 }

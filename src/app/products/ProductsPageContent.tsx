@@ -20,6 +20,17 @@ const ProductsPageContent = () => {
 
   const products = [
     {
+      image: "/daniel/acelera-stage.png",
+      label: "🔥 Featured",
+      title: "Método DSM Acelera",
+      description: "Programa de treinamento completo por Daniel Ribeiro — estratégias de venda, branding digital e operação de dealership. Imersões presenciais, Protocolo Negociador e acesso à comunidade de lojistas.",
+      cta: "Conhecer o Método",
+      featured: true,
+      href: "https://metododsm.com.br",
+      speakerName: "Daniel Ribeiro",
+      speakerSlug: "/speaker/daniel-ribeiro",
+    },
+    {
       image: featured1,
       label: t("products.spotlight"),
       title: t("products.premiumTitle"),
