@@ -14,6 +14,8 @@ import HighlightReel from "@/components/storytelling/HighlightReel";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { useInstagramProfile } from "@/hooks/useInstagramProfile";
+import { useLanguage, type Language } from "@/contexts/LanguageContext";
+import * as di18n from "@/data/daniel-i18n";
 import danielRibeiro from "@/assets/daniel-ribeiro.jpg";
 import danielPalestra from "@/assets/daniel-palestra.png";
 
@@ -196,6 +198,10 @@ const upcomingEvents = [
 ];
 
 const SpeakerPageContent = ({ slug }: { slug: string }) => {
+  const { language } = useLanguage();
+  const lang = language as Language;
+  const $ = (t: Record<Language, string>) => di18n.r(t, lang);
+
   const heroImg = typeof danielRibeiro === "string" ? danielRibeiro : danielRibeiro.src;
   const { profile: liveProfile, isLive } = useInstagramProfile("daniel.ribeiro87");
 
@@ -223,56 +229,73 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
       {/* 1. HERO — Fullscreen parallax */}
       <StorytellingHero
         name="Daniel Ribeiro"
-        tagline="Do Capão Redondo ao Topo do Mercado Automotivo | Empreendedor & Estrategista Automotivo"
+        tagline={$(di18n.hero.tagline)}
         image={heroImg}
         brandColor={BRAND_COLOR}
       />
 
       {/* 2. MANIFESTO — Split text reveal */}
       <SplitTextReveal
-        topLine="Venda não é"
-        bottomLine="talento. É método."
-        description="CEO da DSM Multimarcas e D87 Garage, Daniel Ribeiro saiu da Zona Sul de São Paulo com uma visão: provar que qualquer pessoa com método, disciplina e transparência pode construir um império. Hoje comanda uma operação que vende mais de 150 veículos por mês em Curitiba e treina milhares de lojistas pelo Brasil."
+        topLine={$(di18n.manifesto.topLine)}
+        bottomLine={$(di18n.manifesto.bottomLine)}
+        description={$(di18n.manifesto.description)}
         brandColor={BRAND_COLOR}
       />
 
       {/* 3. HIGHLIGHTS REEL — Infinite scroll ticker */}
-      <HighlightReel highlights={highlights} brandColor={BRAND_COLOR} />
+      <HighlightReel
+        highlights={di18n.highlights.map((h) => ({ emoji: h.emoji, label: $(h.label) }))}
+        brandColor={BRAND_COLOR}
+      />
 
       {/* 4. TIMELINE — A Jornada */}
       <TimelineSection
-        title="A Jornada"
-        items={timeline}
+        title={$(di18n.sectionTitles.timeline)}
+        items={di18n.timeline.map((item) => ({
+          year: item.year,
+          title: $(item.title),
+          description: $(item.description),
+          image: item.image,
+        }))}
         brandColor={BRAND_COLOR}
       />
 
       {/* 5. PARALLAX QUOTE */}
       <ParallaxQuote
-        quote="Comecei com R$ 150 mil e três carros. Hoje a câmera é meu contrato de confiança."
-        attribution="Daniel Ribeiro, G4 Podcasts"
+        quote={$(di18n.quote.text)}
+        attribution={di18n.quote.attribution}
         brandColor={BRAND_COLOR}
       />
 
       {/* 6. COUNTERS — Impact numbers */}
-      <CounterSection stats={stats} brandColor={BRAND_COLOR} />
+      <CounterSection
+        stats={di18n.stats.map((s) => ({ value: s.value, suffix: s.suffix, label: $(s.label) }))}
+        brandColor={BRAND_COLOR}
+      />
 
       {/* 7. BRAND SHOWCASE — Ecossistema */}
       <BrandShowcase
-        title="O Ecossistema"
-        subtitle="Quatro empresas. Uma filosofia: transparência gera confiança, confiança gera venda."
-        brands={brands}
+        title={$(di18n.brandsSection.title)}
+        subtitle={$(di18n.brandsSection.subtitle)}
+        brands={di18n.brands.map((b) => ({
+          name: b.name,
+          role: $(b.role),
+          year: b.year,
+          description: $(b.description),
+          href: b.href,
+        }))}
         brandColor={BRAND_COLOR}
       />
 
       {/* 8. NA MÍDIA + MOMENTOS combined — photos as background mosaic */}
       <MediaMomentosSection
-        title="Na Mídia"
+        title={$(di18n.mediaTitle)}
         mentions={mediaMentions}
         photos={allPhotos}
         brandColor={BRAND_COLOR}
       />
 
-      {/* 10. INSTAGRAM FEED — live data with fallback */}
+      {/* 9. INSTAGRAM FEED — live data with fallback */}
       <InstagramFeed
         handle="daniel.ribeiro87"
         followers={igFollowers}
@@ -286,16 +309,24 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
 
       {/* 10. UPCOMING EVENT */}
       <EventPromoSection
-        title="Próximo Evento"
-        events={upcomingEvents}
+        title={$(di18n.eventsTitle)}
+        events={[{
+          title: $(di18n.eventCard.title),
+          date: "2026-04-09",
+          location: "Alphaville, São Paulo",
+          description: $(di18n.eventCard.description),
+          href: "https://metododsm.com.br",
+          image: "/daniel/acelera-crowd.png",
+          ticketInfo: $(di18n.eventCard.ticketInfo),
+        }]}
         brandColor={BRAND_COLOR}
       />
 
       {/* 11. CTA FINAL */}
       <StorytellingCTA
-        headline="Quer dominar o jogo?"
-        description="Conheça o Método DSM Acelera, acompanhe a jornada nas redes ou entre em contato para parcerias e eventos."
-        ctaText="Acessar o Método"
+        headline={$(di18n.cta.headline)}
+        description={$(di18n.cta.description)}
+        ctaText={$(di18n.cta.ctaText)}
         ctaHref="https://metododsm.com.br"
         brandColor={BRAND_COLOR}
         socialLinks={[
