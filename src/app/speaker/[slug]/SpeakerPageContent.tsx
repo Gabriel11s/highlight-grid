@@ -11,10 +11,27 @@ import MediaMentions from "@/components/storytelling/MediaMentions";
 import InstagramFeed from "@/components/storytelling/InstagramFeed";
 import SplitTextReveal from "@/components/storytelling/SplitTextReveal";
 import HighlightReel from "@/components/storytelling/HighlightReel";
+import PhotoGallery from "@/components/storytelling/PhotoGallery";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import danielRibeiro from "@/assets/daniel-ribeiro.jpg";
 import danielPalestra from "@/assets/daniel-palestra.png";
+
+/* ─── PHOTO GALLERY — Real photos ─── */
+const galleryPhotos = [
+  { src: "/daniel/stage-mic.png", alt: "Daniel no palco — Método Acelera", span: "tall" as const },
+  { src: "/daniel/team-dsm.png", alt: "Equipe DSM Multimarcas no showroom", span: "wide" as const },
+  { src: "/daniel/office-close.png", alt: "Daniel assinando no escritório", span: "normal" as const },
+  { src: "/daniel/acelera-crowd.png", alt: "Daniel com a plateia do Acelera", span: "normal" as const },
+  { src: "/daniel/podcast.png", alt: "Daniel gravando podcast", span: "normal" as const },
+  { src: "/daniel/neymar.png", alt: "Daniel com Neymar", span: "tall" as const },
+  { src: "/daniel/lecture-white.png", alt: "Daniel palestrando para lojistas", span: "normal" as const },
+  { src: "/daniel/acelera-stage.png", alt: "Daniel no palco do evento Acelera", span: "wide" as const },
+  { src: "/daniel/conference-phone.png", alt: "Daniel em conferência", span: "normal" as const },
+  { src: "/daniel/lecture-cap-front.png", alt: "Daniel palestrando — close", span: "normal" as const },
+  { src: "/daniel/story-red-cap.png", alt: "Daniel — Ou você perde o medo, ou a oportunidade", span: "tall" as const },
+  { src: "/daniel/office-wide.png", alt: "Daniel no escritório da DSM", span: "normal" as const },
+];
 
 const BRAND_COLOR = "hsl(35 90% 55%)"; // Gold/amber — matches his visual identity
 
@@ -26,35 +43,35 @@ const timeline = [
     title: "Saiu do Capão Redondo",
     description:
       "Nascido e criado na Zona Sul de São Paulo, deixou o bairro aos 20 anos rumo a Curitiba. Sem estudo formal, carregava determinação e a experiência de uma infância que forjou resiliência.",
-    image: "https://images.unsplash.com/photo-1517732306149-e8f829eb588a?w=600&h=450&fit=crop",
+    image: "/daniel/office-close.png",
   },
   {
     year: "2018",
     title: "Nasce a DSM Multimarcas",
     description:
       "Com R$ 150 mil e três carros no pátio, fundou a DSM Multimarcas Comércio de Veículos em Curitiba. A aposta: transparência total, câmera ligada e negociação ao vivo como contrato de confiança.",
-    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=450&fit=crop",
+    image: "/daniel/team-dsm.png",
   },
   {
     year: "2020",
     title: "D87 Garage entra em cena",
     description:
       "Inaugurou a D87 Garage, expandindo o ecossistema automotivo. O modelo de consignação e conteúdo digital começou a atrair atenção nacional — e celebridades começaram a aparecer no pátio.",
-    image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&h=450&fit=crop",
+    image: "/daniel/neymar.png",
   },
   {
     year: "2024",
     title: "Método DSM Acelera",
     description:
       "Formalizou o know-how em empresa de treinamento. O Acelerador de Vendas Método Daniel Ribeiro nasceu para ensinar lojistas a dominar vendas com método, não talento. Mais de 3 mil lojistas impactados.",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=450&fit=crop",
+    image: "/daniel/acelera-stage.png",
   },
   {
     year: "2026",
     title: "Além da Favela",
     description:
       "Lançou o livro 'Além da Favela — Uma Escada Para o Amanhã', sintetizando a jornada do Capão Redondo ao comando de uma operação que vende mais de 150 veículos por mês. Palestras, imersões e o G4 Podcasts consolidaram sua voz no setor.",
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&h=450&fit=crop",
+    image: "/daniel/podcast.png",
   },
 ];
 
@@ -161,7 +178,7 @@ const upcomingEvents = [
     description:
       "Imersão presencial com carga horária completa sobre estratégias de venda no setor automotivo. Metodologia prática, cases reais e networking com lojistas de todo o Brasil.",
     href: "https://metododsm.com.br",
-    image: typeof danielPalestra === "string" ? danielPalestra : danielPalestra.src,
+    image: "/daniel/acelera-crowd.png",
     ticketInfo: "Modalidades de acesso: Standard, VIP e Premium. Vagas limitadas.",
   },
 ];
@@ -224,7 +241,15 @@ const SpeakerPageContent = ({ slug }: { slug: string }) => {
         brandColor={BRAND_COLOR}
       />
 
-      {/* 9. INSTAGRAM FEED — real posts via official embed */}
+      {/* 9. PHOTO GALLERY — Real photos */}
+      <PhotoGallery
+        title="Momentos"
+        subtitle="Bastidores, palcos, negociações e conexões que marcaram a jornada."
+        photos={galleryPhotos}
+        brandColor={BRAND_COLOR}
+      />
+
+      {/* 10. INSTAGRAM FEED — real posts via official embed */}
       <InstagramFeed
         handle="daniel.ribeiro87"
         followers="758K"
