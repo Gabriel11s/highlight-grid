@@ -52,7 +52,7 @@ const timeline = [
     title: "Nasce a DSM Multimarcas",
     description:
       "Com R$ 150 mil e três carros no pátio, fundou a DSM Multimarcas Comércio de Veículos em Curitiba. A aposta: transparência total, câmera ligada e negociação ao vivo como contrato de confiança.",
-    image: "/daniel/office-wide.png",
+    image: "/daniel/lecture-cap-front.png",
   },
   {
     year: "2020",
