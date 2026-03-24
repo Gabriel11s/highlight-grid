@@ -42,7 +42,7 @@ export function EmbedProvider({ children }: { children: ReactNode }) {
 
     const sendHeight = () => {
       window.parent.postMessage(
-        { type: "blamq-resize", height: document.body.scrollHeight },
+        { type: "news-resize", height: document.body.scrollHeight },
         "*"
       );
     };

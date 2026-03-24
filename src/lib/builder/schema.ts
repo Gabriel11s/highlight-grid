@@ -1,5 +1,5 @@
 /**
- * BLAMQ Visual Builder — Block Schema
+ * NEWS Visual Builder — Block Schema
  *
  * Each profile/post page is a JSON document containing:
  * - metadata (title, slug, brandColor, author info)

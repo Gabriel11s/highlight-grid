@@ -7,7 +7,7 @@ export default function BuilderClient() {
     <VisualBuilder
       onSave={(doc) => {
         // For now, save to localStorage. Later: Supabase
-        localStorage.setItem(`blamq-page-${doc.id}`, JSON.stringify(doc));
+        localStorage.setItem(`news-page-${doc.id}`, JSON.stringify(doc));
         alert("Salvo com sucesso! (localStorage)");
       }}
     />

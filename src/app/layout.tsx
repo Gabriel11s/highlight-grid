@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://blamq-next.lovable.app"),
+  metadataBase: new URL("https://highlight-grid.vercel.app"),
   title: {
     default: "NEWS — Automotive Intelligence & Events",
     template: "%s | NEWS",
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     "método",
     "vendas",
   ],
-  authors: [{ name: "BLAMQ" }],
-  creator: "BLAMQ",
+  authors: [{ name: "NEWS" }],
+  creator: "NEWS",
   openGraph: {
     title: "NEWS — Automotive Intelligence & Events",
     description:

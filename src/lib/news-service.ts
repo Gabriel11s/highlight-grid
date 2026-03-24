@@ -113,7 +113,7 @@ export async function getBreakingNews(): Promise<
     }));
   } catch {
     return [
-      { label: "BLAMQ", text: "Stay tuned for the latest automotive news" },
+      { label: "NEWS", text: "Stay tuned for the latest automotive news" },
     ];
   }
 }
